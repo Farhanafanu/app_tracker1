@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Points</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            background-color: #d3d9df;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+        }
+        .sidebar .nav-link {
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: left;
+            padding: 10px;
+        }
+        .sidebar .nav-link.active {
+            background-color: #6c63ff;
+            color: white;
+            border-radius: 10px;
+        }
+        .topbar {
+            background-color: #d3d9df;
+            padding: 10px 20px;
+            margin-left: 250px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #ccc;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            text-align: center;
+        }
+        .points-display {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            margin: 40px auto;
+        }
+        .points-display h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .points-badge {
+            background-color: #20c997;
+            color: white;
+            padding: 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 36px;
+            min-width: 120px;
+            display: inline-block;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="nav flex-column">
+                <a href="{% url 'userhome' %}" class="nav-link">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'profile' %}" class="nav-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="{% url 'points' %}" class="nav-link active">
+                    <i class="fas fa-coins"></i> Points
+                </a>
+                <a href="{% url 'tasks-overview' %}" class="nav-link">
+                    <i class="fas fa-tasks"></i> Task 
+                    <span class="badge badge-primary">{{ tasks|length }}</span>
+                </a>
+                <a href="{% url 'logout' %}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Topbar -->
+            <div class="topbar">
+                Your Points
+            </div>
+
+            <!-- Points Display -->
+            <div class="points-display">
+                <h3>Total Points Earned</h3>
+                <span class="points-badge">{{ total_points }}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

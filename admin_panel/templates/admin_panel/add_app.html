@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New App</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            padding: 20px;
+            margin-left: 240px;
+            position: fixed;
+            width: calc(100% - 240px);
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .sidebar {
+            background-color: #f1f5fb;
+            height: 100vh;
+            padding-top: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 240px;
+            z-index: 1000;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 100px;
+        }
+
+        .sidebar ul li a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            text-decoration: none;
+            color: #6c63ff;
+            background-color: white;
+            margin-bottom: 10px;
+            text-align: center;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #6c63ff;
+            width: 180px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .sidebar ul li a .fas {
+            margin-right: 8px;
+        }
+
+        .sidebar ul li a.add-app {
+            background-color: #6c63ff;
+            color: white;
+            border: none;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #6c63ff;
+            color: white;
+        }
+
+        .sidebar ul li a.add-app:hover {
+            background-color: #4c47d4;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 140px 40px 40px 40px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .form-container img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+
+        .form-container .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 2px solid #6c63ff;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-group.col-md-6 {
+            flex: 0 0 48%;
+        }
+
+        .btn-primary {
+            background-color: #5fc3b1;
+            border-color: #5fc3b1;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            max-width: 200px;
+            margin-top: 20px;
+        }
+
+        /* Remove spinner controls for number inputs */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="{% url 'admin-home' %}"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="{% url 'add-app' %}" class="add-app"><i class="fas fa-plus"></i> Add Apps</a></li>
+        </ul>
+    </nav>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <h1>Hello Admin</h1>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group col-md-6">
+                    {{ form.image.label_tag }}
+                    {{ form.image }}
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.link.label_tag }}
+                        {{ form.link }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.category.label_tag }}
+                        {{ form.category }}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{ form.sub_category.label_tag }}
+                        {{ form.sub_category }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{ form.points.label_tag }}
+                        {{ form.points }}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

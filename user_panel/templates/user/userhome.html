@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sidebar {
+            background-color: #d3d9df;
+            padding: 20px;
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .sidebar .nav-link {
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: left;
+            padding: 10px;
+        }
+        .sidebar .nav-link.active {
+            background-color: #6c63ff;
+            color: white;
+            border-radius: 10px;
+        }
+        .topbar {
+            background-color: #d3d9df;
+            padding: 10px 20px;
+            margin-left: 250px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #ccc;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+        .card img {
+            width: 40px;
+            height: 40px;
+            margin-right: 20px;
+        }
+        .card .card-body {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .points-badge {
+            background-color: #20c997;
+            color: white;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: bold;
+            min-width: 80px;
+            text-align: center;
+        }
+        .nav-item {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="nav flex-column">
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="{% url 'profile' %}" class="nav-link">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="{% url 'points' %}" class="nav-link">
+                    <i class="fas fa-coins"></i> Points
+                </a>
+                <a href="{% url 'tasks-overview' %}" class="nav-link">
+                    <i class="fas fa-tasks"></i> Task 
+                   
+                </a>
+                <a href="{% url 'logout' %}" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Topbar -->
+            <div class="topbar">
+                Hello {{ user.username }}
+            </div>
+
+            {% for app in apps %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ app.image.url }}" alt="{{ app.name }}">
+                        <div>
+                            <h5 class="card-title">{{ app.name }}</h5>
+                            <a href="{% url 'task-page' app.id %}" class="card-link">View in Detail &gt;</a>
+                        </div>
+                    </div>
+                    <div class="points-badge">{{ app.points }} POINTS</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>

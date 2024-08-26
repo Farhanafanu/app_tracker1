@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app.name }} - Task</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.css" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .sidebar {
+            background-color: #d3d9df;
+            padding: 20px;
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+        .sidebar .nav-link {
+            color: #6c757d;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: left;
+            padding: 10px;
+        }
+        .sidebar .nav-link.active {
+            background-color: #6c63ff;
+            color: white;
+            border-radius: 10px;
+        }
+        .topbar {
+            background-color: #d3d9df;
+            padding: 10px 20px;
+            margin-left: 250px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            border-bottom: 2px solid #ccc;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .breadcrumb {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .breadcrumb-item + .breadcrumb-item::before {
+            content: ">";
+            color: #6c757d;
+            margin: 0 5px;
+        }
+        .task-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        .task-container h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .task-container h2 img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+        .task-container p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .task-container .points {
+            background-color: #20c997;
+            color: white;
+            padding: 10px;
+            border-radius: 50px;
+            font-weight: bold;
+            min-width: 80px;
+            text-align: center;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .dropzone {
+            background-color: #f8f9fa;
+            border: 2px dashed #ced4da;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="nav flex-column">
+            <a href="{% url 'userhome' %}" class="nav-link active">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="{% url 'profile' %}" class="nav-link">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="{% url 'points' %}" class="nav-link">
+                <i class="fas fa-coins"></i> Points
+            </a>
+            <a href="{% url 'tasks-overview' %}" class="nav-link active">
+                <i class="fas fa-tasks"></i> Task 
+                <span class="badge badge-primary">{{ tasks|length }}</span>
+            </a>
+            <a href="{% url 'logout' %}" class="nav-link">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        Hello {{ user.username }}
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'userhome' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ app.name }}</li>
+            </ol>
+        </nav>
+        
+        <div class="task-container">
+            <h2>
+                <img src="{{ app.image.url }}" alt="{{ app.name }}"> <!-- Admin updated image -->
+                {{ app.name }}
+            </h2>
+            <p><a href="{{ app.link }}">{{ app.link }}</a></p>
+            <span class="points">{{ app.points }} POINTS</span>
+            
+            <form action="{% url 'task-page' app.id %}" class="dropzone" id="uploadDropzone" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="dz-message">
+                    Drag and drop a screenshot here or click to upload
+                </div>
+            </form>
+        </div>
+    </div>
+
+   <!-- Scripts -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
+   <script>
+       Dropzone.options.uploadDropzone = {
+           paramName: "screenshot",  // The name that will be used to transfer the file
+           maxFilesize: 5,  // MB
+           init: function() {
+               this.on("success", function(file, response) {
+                   // After successful upload, redirect or perform another action
+                   window.location.href = "{% url 'tasks-overview' %}";  // Adjust the URL as needed
+               });
+           }
+       };
+   </script>
+</body>
+</html>
+
+
